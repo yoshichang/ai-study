@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界のAI普及率インフォグラフィック</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 40vh;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 50vh;
+                max-height: 500px;
+            }
+        }
+        .factor-card h3 {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .factor-card span {
+            font-size: 2rem;
+            margin-right: 0.75rem;
+            line-height: 1;
+        }
+        .flow-arrow {
+            position: relative;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .flow-arrow::after {
+            content: '▼';
+            font-size: 2rem;
+            color: #ef5675;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-7px);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-2" style="color: #003f5c;">世界のAI格差</h1>
+            <p class="text-lg md:text-xl text-gray-600">AI導入を巡るグローバル競争の現状と、その背景にある要因を可視化する</p>
+        </header>
+
+        <section id="overview" class="mb-16">
+             <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-6" style="color: #7a5195;">世界は3つのグループに分断されている</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">現在、世界の国々は生成AIの導入・活用状況によって、大きく「高普及・積極活用」「中普及・追随」「低普及・慎重姿勢」の3つのグループに分類できます。この差はなぜ生まれるのでしょうか。</p>
+                <div class="chart-container max-w-md mx-auto">
+                    <canvas id="adoptionDonutChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="factors" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" style="color: #7a5195;">AI普及を左右する7つの鍵</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>🏛️</span>A: 国家戦略</h3><p class="mt-2 text-gray-600">政府主導のAI推進戦略と投資規模。国家の未来を賭けたコミットメント。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>📈</span>B: 市場とデータ</h3><p class="mt-2 text-gray-600">AI学習の燃料となる国内市場の規模と、活用可能なデータ量の豊富さ。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>💡</span>C: イノベーション文化</h3><p class="mt-2 text-gray-600">失敗を恐れず、迅速に試行錯誤を繰り返すリスク受容度の高い文化。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>👩‍💻</span>D: インフラと人材</h3><p class="mt-2 text-gray-600">高速ネットワークやデータセンター、そしてAIを使いこなす人材の質と量。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>🏢</span>E: 企業文化</h3><p class="mt-2 text-gray-600">既存の業務プロセス維持を重視する保守性。変化への抵抗感の強さ。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6"><h3><span>🛡️</span>F: 規制と懸念</h3><p class="mt-2 text-gray-600">プライバシーやセキュリティへの懸念と、それに対応する規制環境の厳しさ。</p></div>
+                <div class="factor-card bg-white rounded-2xl shadow-lg p-6 lg:col-span-1 xl:col-span-2"><h3><span>🧠</span>G: 学習意欲</h3><p class="mt-2 text-gray-600">国民全体の新しい技術に対する好奇心と、それを学ぶ意欲の高さ。</p></div>
+            </div>
+        </section>
+        
+        <section id="comparison" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" style="color: #7a5195;">グループ別能力比較：何が差を生むのか</h2>
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">各グループの強みと弱みをレーダーチャートで比較すると、その特性が明確になります。「保守性」と「規制/懸念」のスコアは逆転させて評価しており、中心から遠いほどAI導入に有利な状況を示します。</p>
+                <div class="chart-container max-w-2xl mx-auto">
+                    <canvas id="factorRadarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="groups" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12" style="color: #7a5195;">世界のAI勢力図：3つのグループ詳細</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-8" style="border-color: #ffa600;">
+                    <h3 class="text-2xl font-bold mb-4">【高】積極活用グループ 🚀</h3>
+                    <p class="text-gray-600 mb-4">AIを国家・経済成長の核と捉え、官民一体で開発と導入を強力に推進。イノベーション文化が根付き、世界をリードする。</p>
+                    <p class="font-bold">主な国: 🇺🇸 🇨🇳 🇮🇳  🇷</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-8" style="border-color: #bc5090;">
+                    <h3 class="text-2xl font-bold mb-4">【中】追随・課題認識グループ 🏃</h3>
+                    <p class="text-gray-600 mb-4">AIの重要性を認識し、高い技術基盤を持つものの、規制や人材定着などの課題に直面。キャッチアップを急ぐ。</p>
+                    <p class="font-bold">主な国: 🇰🇷 🇩🇪 🇫🇷 🇬🇧</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-8" style="border-color: #003f5c;">
+                    <h3 class="text-2xl font-bold mb-4">【低】慎重姿勢グループ 🤔</h3>
+                    <p class="text-gray-600 mb-4">安定した既存システムと、リスクへの強い懸念から導入に慎重。AIリテラシーの向上が普及の鍵となる。</p>
+                    <p class="font-bold">主な国: 🇯🇵</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="flow" class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8" style="color: #7a5195;">技術と影響力の流れ</h2>
+             <div class="bg-white rounded-2xl shadow-lg p-8">
+                 <div class="text-center">
+                    <div class="inline-block bg-amber-100 text-amber-800 rounded-full px-6 py-3 font-bold text-lg">
+                        【高】積極活用グループ (🇺🇸 🇨🇳)
+                    </div>
+                    <p class="mt-2 text-gray-600">AI技術革新・市場モデルの提供</p>
+                 </div>
+
+                 <div class="flow-arrow"></div>
+                 
+                 <div class="text-center">
+                    <div class="inline-block bg-purple-100 text-purple-800 rounded-full px-6 py-3 font-bold text-lg">
+                        【中】追随・課題認識グループ (🇰🇷 🇪🇺)
+                    </div>
+                    <p class="mt-2 text-gray-600">成功事例・規制を参考に導入・適応</p>
+                 </div>
+                 
+                 <div class="flow-arrow"></div>
+
+                 <div class="text-center">
+                    <div class="inline-block bg-slate-200 text-slate-800 rounded-full px-6 py-3 font-bold text-lg">
+                        【低】慎重姿勢グループ (🇯🇵)
+                    </div>
+                    <p class="mt-2 text-gray-600">遅れて技術導入を検討・開始</p>
+                 </div>
+            </div>
+        </section>
+        
+        <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+            <p class="text-gray-500">このインフォグラフィックは、世界の生成AI普及率に関する公開情報を基に作成された概念図です。</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const wrapLabel = (label, maxLength) => {
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i];
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            if (currentLine.length > 0) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        };
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        const colors = {
+            blue: '#003f5c',
+            purple: '#7a5195',
+            pink: '#bc5090',
+            red: '#ef5675',
+            orange: '#ff764a',
+            yellow: '#ffa600',
+        };
+
+        const donutCtx = document.getElementById('adoptionDonutChart').getContext('2d');
+        new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['【低】慎重姿勢グループ', '【中】追随・課題認識グループ', '【高】積極活用グループ'],
+                datasets: [{
+                    label: '世界のAI導入グループ割合（概念）',
+                    data: [50, 35, 15],
+                    backgroundColor: [colors.blue, colors.purple, colors.yellow],
+                    borderColor: '#f0f4f8',
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                }
+            }
+        });
+
+        const radarCtx = document.getElementById('factorRadarChart').getContext('2d');
+        const radarLabels = ['国家戦略(A)', '市場/データ(B)', 'イノベーション(C)', 'インフラ/人材(D)', '企業文化の柔軟性(E)', 'リスク管理とバランス(F)', '学習意欲(G)'];
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: radarLabels.map(l => wrapLabel(l, 16)),
+                datasets: [{
+                    label: '【高】積極活用グループ',
+                    data: [3.25, 3.5, 3.25, 3, 3, 3, 3.25],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 166, 0, 0.2)',
+                    borderColor: colors.yellow,
+                    pointBackgroundColor: colors.yellow,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: colors.yellow
+                }, {
+                    label: '【中】追随・課題認識グループ',
+                    data: [3, 2, 2, 2.5, 1.5, 1.5, 2],
+                    fill: true,
+                    backgroundColor: 'rgba(188, 80, 144, 0.2)',
+                    borderColor: colors.pink,
+                    pointBackgroundColor: colors.pink,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: colors.pink
+                }, {
+                    label: '【低】慎重姿勢グループ',
+                    data: [1, 1, 1, 1.5, 1, 1, 1],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 63, 92, 0.2)',
+                    borderColor: colors.blue,
+                    pointBackgroundColor: colors.blue,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: colors.blue
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                         position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        pointLabels: { font: { size: 12 } },
+                        suggestedMin: 0,
+                        suggestedMax: 4,
+                        ticks: {
+                            stepSize: 1,
+                            backdropColor: 'rgba(255, 255, 255, 0.75)',
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+ 
